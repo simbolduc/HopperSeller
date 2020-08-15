@@ -1,0 +1,9 @@
+name: HopperSeller
+main: ca.coulis.HopperSeller.HopperSeller
+version: 1.13
+author: coulis
+commands:
+  hopperseller:
+    description: HopperSeller
+    usage: /hopperseller
+    permission: hopperseller.admin
