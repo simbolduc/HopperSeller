@@ -1,16 +1,15 @@
-package ca.coulis.HopperSeller;
+package ca.coulis.HopperSeller.storage;
 
+import ca.coulis.HopperSeller.HopperSeller;
+import ca.coulis.HopperSeller.SellingItem;
+import com.google.gson.reflect.TypeToken;
 import org.bukkit.Material;
-import org.bukkit.block.Hopper;
 
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class StorageManager {
 
@@ -19,7 +18,7 @@ public class StorageManager {
     private final File dataFolder;
     private final Map<String, File> configs = new HashMap<>();
 
-    private List<SellingItem> sellings;
+    private List<SellingItem> sellings = null;
 
     public StorageManager() {
         dataFolder = HopperSeller.getInstance().getDataFolder();
@@ -45,7 +44,7 @@ public class StorageManager {
             }
             FileReader reader = new FileReader(configs.get(configFile));
             if(configFile.equals("sellings"))
-                sellings = Arrays.asList(HopperSeller.GSON.fromJson(reader, SellingItem[].class));
+                sellings = HopperSeller.GSON.fromJson(reader, new TypeToken<List<SellingItem>>(){}.getType());
 
             // TODO: Add hoppers
 //            if(configFile.equals("hoppers"))

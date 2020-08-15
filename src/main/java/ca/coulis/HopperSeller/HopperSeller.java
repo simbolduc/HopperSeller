@@ -2,6 +2,7 @@ package ca.coulis.HopperSeller;
 
 import ca.coulis.HopperSeller.commands.AddSellingCommand;
 import ca.coulis.HopperSeller.listeners.PlayerOpenHopperEvent;
+import ca.coulis.HopperSeller.storage.StorageManager;
 import com.google.gson.Gson;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -11,6 +12,7 @@ public class HopperSeller extends JavaPlugin {
 
     private static HopperSeller instance;
     public static Gson GSON = new Gson();
+
 
     @Override
     public void onEnable() {

@@ -1,6 +1,7 @@
 name: HopperSeller
 main: ca.coulis.HopperSeller.HopperSeller
-version: 1.13
+version: 1.0
+api-version: 1.16
 author: coulis
 commands:
   hopperseller:

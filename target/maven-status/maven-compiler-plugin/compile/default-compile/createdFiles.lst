@@ -1,5 +1,6 @@
-ca\coulis\HopperSeller\commands\AddSellingCommand.class
 ca\coulis\HopperSeller\HopperSeller.class
-ca\coulis\HopperSeller\listeners\PlayerOpenHopperEvent.class
 ca\coulis\HopperSeller\StorageManager.class
 ca\coulis\HopperSeller\SellingItem.class
+ca\coulis\HopperSeller\StorageManager$1.class
+ca\coulis\HopperSeller\commands\AddSellingCommand.class
+ca\coulis\HopperSeller\listeners\PlayerOpenHopperEvent.class

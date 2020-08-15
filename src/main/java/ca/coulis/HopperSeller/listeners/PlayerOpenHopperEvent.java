@@ -1,8 +1,5 @@
 package ca.coulis.HopperSeller.listeners;
 
-import ca.coulis.HopperSeller.SellingItem;
-import ca.coulis.HopperSeller.StorageManager;
-import org.bukkit.Material;
 import org.bukkit.block.Hopper;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
