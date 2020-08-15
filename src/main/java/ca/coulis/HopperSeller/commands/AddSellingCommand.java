@@ -1,6 +1,7 @@
 package ca.coulis.HopperSeller.commands;
 
 import ca.coulis.HopperSeller.HopperSeller;
+import ca.coulis.HopperSeller.SellingItem;
 import ca.coulis.HopperSeller.storage.StorageManager;
 import com.github.stefvanschie.inventoryframework.Gui;
 import com.github.stefvanschie.inventoryframework.GuiItem;
@@ -12,6 +13,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+
+import java.util.List;
 
 public class AddSellingCommand implements CommandExecutor {
 
@@ -43,28 +46,27 @@ public class AddSellingCommand implements CommandExecutor {
     }
 
     private boolean Browse(Player p, String[] args) {
-        Gui gui = new Gui(HopperSeller.getInstance(), 6, "");
+        Gui gui = new Gui(HopperSeller.getInstance(), 6, "Browser");
 
         PaginatedPane pane = new PaginatedPane(0, 0, 9, 5);
 
-//page one
-        StaticPane pageOne = new StaticPane(0, 0, 9, 5);
-        pageOne.addItem(new GuiItem(new ItemStack(Material.BONE), event -> event.getWhoClicked().sendMessage("Bone")), 0, 0);
-        pane.addPane(0, pageOne);
+        List<SellingItem> items = StorageManager.getInstance().getSellings();
+        for(int i = 0; i <= (int)Math.ceil(items.size() / 45); i++) {
+            StaticPane aPage = new StaticPane(0, 0, 9, 5);
+            for(int j = (i * 45); j < Math.min((i * 45 + 45), items.size()); j++) {
 
-//page two
-        StaticPane pageTwo = new StaticPane(0, 0, 9, 5);
-        pageTwo.addItem(new GuiItem(new ItemStack(Material.GLASS), event -> event.getWhoClicked().sendMessage("Glass")), 0, 0);
-        pane.addPane(1, pageTwo);
+                aPage.addItem(new GuiItem(new ItemStack(items.get(j).getItem()), event -> {
+                    event.getWhoClicked().sendMessage("Item has been removed");
+                    event.setCancelled(true);
+                }), j % 9, (int)Math.floor(j / 9) - i * 5);
+            }
 
-//page three
-        StaticPane pageThree = new StaticPane(0, 0, 9, 5);
-        pageThree.addItem(new GuiItem(new ItemStack(Material.BLAZE_ROD), event -> event.getWhoClicked().sendMessage("Blaze rod")), 0, 0);
-        pane.addPane(2, pageThree);
+            pane.addPane(i, aPage);
+        }
 
         gui.addPane(pane);
 
-//page selection
+        // Page selection
         StaticPane back = new StaticPane(2, 5, 1, 1);
         StaticPane forward = new StaticPane(6, 5, 1, 1);
 
@@ -92,6 +94,9 @@ public class AddSellingCommand implements CommandExecutor {
             gui.update();
         }), 0, 0);
 
+        if(items.size() <= 45)
+            forward.setVisible(false);
+
         gui.addPane(back);
         gui.addPane(forward);
 
@@ -111,14 +116,14 @@ public class AddSellingCommand implements CommandExecutor {
         try {
             double price = Double.parseDouble(args[1]);
             p.sendMessage("Price : " + price);
-            StorageManager.getInstance().addSelling(material, price);
+            boolean res = StorageManager.getInstance().addSelling(material, price);
+            if(res) p.sendMessage("The item has been added to the selling list");
+            else p.sendMessage("This item is already in sellable");
         } catch (Exception e){
             e.printStackTrace();
             p.sendMessage("The price must be a number");
             return true;
         }
-
-        p.sendMessage("The item has been added to the selling list");
         return true;
     }
 

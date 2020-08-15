@@ -77,10 +77,16 @@ public class StorageManager {
         this.sellings = sellings;
     }
 
-    public void addSelling(Material material, double price) {
-        if(this.sellings != null)
+    public boolean addSelling(Material material, double price) {
+        if(this.sellings != null) {
+            for (SellingItem selling : this.sellings)
+                if (selling.getItem() == material)
+                    return false;
             this.sellings.add(new SellingItem(material, price));
-        else System.out.println("SELLINGS ARE NULL");
+            return true;
+        }
+        System.out.println("SELLINGS ARE NULL");
+        return false;
     }
 
 }
