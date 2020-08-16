@@ -61,7 +61,7 @@ public class PlayerOpenHopperEvent implements Listener {
             for(int j = (i * 45); j < Math.min((i * 45 + 45), items.size()); j++) {
                 ItemStack item = new ItemStack(items.get(j).getItem());
                 ItemMeta meta = item.getItemMeta();
-                meta.setDisplayName(Utils.toColor((hopper.getSellings().contains(items.get(j)) ? "&a&l[ON]" : "&c&l[OFF]") + " &e&lClick to toggle"));
+                meta.setDisplayName(Utils.toColor((hopper.isEnabled(items.get(j).getItem()) ? "&a&l[ON]" : "&c&l[OFF]") + " &e&lClick to toggle"));
                 List<String> lores = new ArrayList<>();
                 lores.add(Utils.toColor("&aPrice : " + items.get(j).getPrice() + "$ each"));
                 meta.setLore(lores);
@@ -123,8 +123,24 @@ public class PlayerOpenHopperEvent implements Listener {
         if(items.size() <= 45)
             forward.setVisible(false);
 
+        // Sell button
+        StaticPane sellPane = new StaticPane(4, 5, 1, 1);
+        ItemStack emerald = new ItemStack(Material.EMERALD);
+        ItemMeta emeraldMeta = emerald.getItemMeta();
+        emeraldMeta.setDisplayName(Utils.toColor("&a&lCollect money &e(" + hopper.getBank() + "$)"));
+        emerald.setItemMeta(emeraldMeta);
+
+        sellPane.addItem(new GuiItem(emerald, event -> {
+            event.getWhoClicked().sendMessage(Utils.toColor(HopperSeller.chatPrefix + "&aYou have received &e" + hopper.getBank() + "$"));
+            HopperSeller.getInstance().getEcon().depositPlayer(p, hopper.getBank());
+            hopper.setBank(0);
+            p.closeInventory();
+            event.setCancelled(true);
+        }), 0, 0);
+
         gui.addPane(back);
         gui.addPane(forward);
+        gui.addPane(sellPane);
 
         gui.show(p);
     }

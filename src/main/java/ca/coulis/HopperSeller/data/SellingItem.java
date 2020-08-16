@@ -4,8 +4,8 @@ import org.bukkit.Material;
 
 public class SellingItem {
 
-    private Material item;
-    private double price;
+    private final Material item;
+    private final double price;
 
     public SellingItem(Material item, double price) {
         this.item = item;
@@ -16,16 +16,9 @@ public class SellingItem {
         return item;
     }
 
-    public void setItem(Material item){
-        this.item = item;
-    }
-
     public double getPrice(){
         return price;
     }
 
-    public void setPrice(float price) {
-        this.price = price;
-    }
 
 }
