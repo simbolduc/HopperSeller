@@ -1,7 +1,10 @@
-ca\coulis\HopperSeller\messages\Message.class
+ca\coulis\HopperSeller\adapter\LocationAdapter.class
 ca\coulis\HopperSeller\HopperSeller.class
 ca\coulis\HopperSeller\storage\StorageManager.class
-ca\coulis\HopperSeller\SellingItem.class
-ca\coulis\HopperSeller\commands\AddSellingCommand.class
+ca\coulis\HopperSeller\data\HopperData.class
+ca\coulis\HopperSeller\storage\StorageManager$2.class
+ca\coulis\HopperSeller\data\SellingItem.class
+ca\coulis\HopperSeller\commands\SellingCommand.class
 ca\coulis\HopperSeller\storage\StorageManager$1.class
 ca\coulis\HopperSeller\listeners\PlayerOpenHopperEvent.class
+ca\coulis\HopperSeller\Utils.class

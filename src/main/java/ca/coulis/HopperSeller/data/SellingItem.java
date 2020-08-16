@@ -1,4 +1,4 @@
-package ca.coulis.HopperSeller;
+package ca.coulis.HopperSeller.data;
 
 import org.bukkit.Material;
 

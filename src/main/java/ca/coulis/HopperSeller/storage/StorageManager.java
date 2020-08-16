@@ -1,8 +1,10 @@
 package ca.coulis.HopperSeller.storage;
 
 import ca.coulis.HopperSeller.HopperSeller;
-import ca.coulis.HopperSeller.SellingItem;
+import ca.coulis.HopperSeller.data.HopperData;
+import ca.coulis.HopperSeller.data.SellingItem;
 import com.google.gson.reflect.TypeToken;
+import org.bukkit.Location;
 import org.bukkit.Material;
 
 import java.io.File;
@@ -19,6 +21,7 @@ public class StorageManager {
     private final Map<String, File> configs = new HashMap<>();
 
     private List<SellingItem> sellings = null;
+    private List<HopperData> hoppers = null;
 
     public StorageManager() {
         dataFolder = HopperSeller.getInstance().getDataFolder();
@@ -45,9 +48,8 @@ public class StorageManager {
             FileReader reader = new FileReader(configs.get(configFile));
             if(configFile.equals("sellings"))
                 sellings = HopperSeller.GSON.fromJson(reader, new TypeToken<List<SellingItem>>(){}.getType());
-
-            // TODO: Add hoppers
-//            if(configFile.equals("hoppers"))
+            if(configFile.equals("hoppers"))
+                hoppers = HopperSeller.GSON.fromJson(reader, new TypeToken<List<HopperData>>(){}.getType());
 
         }
     }
@@ -62,19 +64,41 @@ public class StorageManager {
             FileWriter writer = new FileWriter(configs.get(configFile), false);
             if(configFile.equals("sellings"))
                 writer.write(HopperSeller.GSON.toJson(sellings));
-            // TODO: Add hoppers
-//            if(configFile.equals("hoppers"))
-//                writer.write(HopperSeller.GSON.toJson(sellings));
+            if(configFile.equals("hoppers"))
+                writer.write(HopperSeller.GSON.toJson(hoppers));
             writer.close();
         }
     }
 
-    public List<SellingItem> getSellings() {
-        return sellings;
+    public HopperData getHopperByLocation(Location location) {
+        for(int i = 0; i < this.hoppers.size(); i++) {
+            if (this.hoppers.get(i).getLocation().getX() == location.getX() &&
+                this.hoppers.get(i).getLocation().getY() == location.getY() &&
+                this.hoppers.get(i).getLocation().getZ() == location.getZ() &&
+                this.hoppers.get(i).getLocation().getWorld().getName().equals(location.getWorld().getName())
+            )
+                return this.hoppers.get(i);
+        }
+        return null;
     }
 
-    public void setSellings(List<SellingItem> sellings) {
-        this.sellings = sellings;
+    public void removeHopper(HopperData hopper) {
+        this.hoppers.remove(hopper);
+    }
+
+    public void updateHopper(HopperData hopper) {
+        HopperData data = this.getHopperByLocation(hopper.getLocation());
+        if(data != null) this.hoppers.remove(data);
+        this.hoppers.add(hopper);
+    }
+
+    public List<SellingItem> getSellings() {
+        return this.sellings;
+    }
+
+    public void removeSelling(Material material) {
+        if(this.sellings != null)
+            this.sellings.removeIf(item -> item.getItem() == material);
     }
 
     public boolean addSelling(Material material, double price) {
@@ -85,7 +109,6 @@ public class StorageManager {
             this.sellings.add(new SellingItem(material, price));
             return true;
         }
-        System.out.println("SELLINGS ARE NULL");
         return false;
     }
 
