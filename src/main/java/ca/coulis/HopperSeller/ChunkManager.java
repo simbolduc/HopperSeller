@@ -62,11 +62,8 @@ public class ChunkManager {
                                         hoppers.get(i).setBank(hoppers.get(i).getBank() + content[j].getAmount() * StorageManager.getInstance().getSellPrice(type));
                                         Bukkit.broadcastMessage("SOLD " + type + " " + content[j].getAmount() + " times for " + content[j].getAmount() * StorageManager.getInstance().getSellPrice(type));
 
-                                        hopperBlock.getInventory().remove(content[j]);
-
-                                        for(int k = 0; k < content.length; k++)
-                                            if(content[k] != null)
-                                                System.out.println(k + " = " + content[k].getItemMeta().getDisplayName());
+                                        content[j] = new ItemStack(Material.AIR);
+                                        hopperBlock.getSnapshotInventory().setContents(content);
 
                                         hopperBlock.update();
                                         block.update();
