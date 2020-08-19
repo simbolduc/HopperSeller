@@ -60,7 +60,6 @@ public class ChunkManager {
                                     Material type = content[j].getType();
                                     if (StorageManager.getInstance().canSell(type) && hoppers.get(i).getSellings().contains(type)) {
                                         hoppers.get(i).setBank(hoppers.get(i).getBank() + content[j].getAmount() * StorageManager.getInstance().getSellPrice(type));
-                                        Bukkit.broadcastMessage("SOLD " + type + " " + content[j].getAmount() + " times for " + content[j].getAmount() * StorageManager.getInstance().getSellPrice(type));
 
                                         content[j] = new ItemStack(Material.AIR);
                                         hopperBlock.getSnapshotInventory().setContents(content);

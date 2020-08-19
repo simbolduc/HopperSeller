@@ -42,9 +42,23 @@ public class SellingCommand implements CommandExecutor {
             if(args[0].equalsIgnoreCase("add") && args[1] != null)
                 return this.addSelling(p, args);
 
+            if(args[0].equalsIgnoreCase("friend") && args[1].equalsIgnoreCase("add") && args[2] != null)
+                return this.addFriend(p, args[3]);
+
+            if(args[0].equalsIgnoreCase("friend") && args[1].equalsIgnoreCase("remove") && args[2] != null)
+                return this.removeFriend(p, args[3]);
+
         }
 
         return true;
+    }
+
+    private boolean addFriend(Player p, String username) {
+        return true;
+    }
+
+    private boolean removeFriend(Player p, String username) {
+        return false;
     }
 
     private boolean browse(Player p) {
