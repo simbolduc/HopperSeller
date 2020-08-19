@@ -45,6 +45,7 @@ public class HopperSeller extends JavaPlugin {
         this.getCommand("hopperseller").setExecutor(new SellingCommand());
         this.getServer().getPluginManager().registerEvents(new PlayerOpenHopperEvent(), this);
         this.getServer().getPluginManager().registerEvents(new ChunkEvent(), this);
+        ChunkManager.getInstance().automaticSell(this);
     }
 
     @Override

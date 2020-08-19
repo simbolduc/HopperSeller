@@ -92,6 +92,10 @@ public class StorageManager {
         this.hoppers.add(hopper);
     }
 
+    public List<HopperData> getHoppers() {
+        return this.hoppers;
+    }
+
     public List<SellingItem> getSellings() {
         return this.sellings;
     }
@@ -110,6 +114,20 @@ public class StorageManager {
             return true;
         }
         return false;
+    }
+
+    public boolean canSell(Material material) {
+        for(SellingItem item : this.sellings)
+            if(item.getItem() == material)
+                return true;
+        return false;
+    }
+
+    public double getSellPrice(Material material) {
+        for(SellingItem item : this.sellings)
+            if(item.getItem() == material)
+                return item.getPrice();
+        return 0;
     }
 
 }
